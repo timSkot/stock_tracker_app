@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import NavItems from './NavItems'
 import UserDropdown from './UserDropdown'
+import SearchCommandProvider from './SearchCommandProvider'
 import { searchStocks } from '@/lib/actions/finnhub.actions'
 
 const Header = async ({ user }: { user: User }) => {
@@ -19,10 +20,12 @@ const Header = async ({ user }: { user: User }) => {
             className='h-8 w-auto cursor-pointer'
           />
         </Link>
-        <nav className='hidden sm:block'>
-          <NavItems initialStocks={initialStocks} />
-        </nav>
-        <UserDropdown user={user} initialStocks={initialStocks} />
+        <SearchCommandProvider initialStocks={initialStocks}>
+          <nav className='hidden sm:block'>
+            <NavItems />
+          </nav>
+          <UserDropdown user={user} />
+        </SearchCommandProvider>
       </div>
     </header>
   )
