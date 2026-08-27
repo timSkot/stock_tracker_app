@@ -49,14 +49,20 @@ const SearchCommand = ({
     }
 
     setLoading(true)
+    let ignore = false
 
     const timeoutId = setTimeout(() => {
-      searchStocks(trimmed)
-        .then(setStocks)
-        .finally(() => setLoading(false))
+      searchStocks(trimmed).then((results) => {
+        if (ignore) return
+        setStocks(results)
+        setLoading(false)
+      })
     }, 300)
 
-    return () => clearTimeout(timeoutId)
+    return () => {
+      ignore = true
+      clearTimeout(timeoutId)
+    }
   }, [query, open, initialStocks])
 
   const handleSelect = () => {
